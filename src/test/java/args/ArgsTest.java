@@ -2,12 +2,28 @@ package args;
 
 import org.junit.jupiter.api.Test;
 
+import java.lang.annotation.Annotation;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @Author: focus.guo @Date: 2022/8/27 19:39 @Description:
  */
 class ArgsTest {
+
+    public static Option option(String value) {
+        return new Option() {
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                return Option.class;
+            }
+
+            @Override
+            public String value() {
+                return value;
+            }
+        };
+    }
 
     @Test
     void should_set_boolean_option_to_return_true_if_flag_present() {
