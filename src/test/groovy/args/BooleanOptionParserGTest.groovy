@@ -1,7 +1,6 @@
-package Args
+package args
 
-import args.BooleanOptionParser
-import args.TooManyArgumentsException
+
 import spock.lang.Specification
 
 import static args.ArgsTest.option
@@ -13,6 +12,19 @@ import static args.ArgsTest.option
  */
 class BooleanOptionParserGTest extends Specification {
 
+    def "happy path: 有 option 时返回 true"() {
+        given:
+        def parser = new BooleanOptionParser()
+
+        when:
+        def value = parser.parse(arguments, option("l"))
+
+        then:
+        value
+
+        where:
+        arguments << [["-l"], ["-l", "-p", "8080"]]
+    }
 
     def "不能有多余的参数"() {
         given:
