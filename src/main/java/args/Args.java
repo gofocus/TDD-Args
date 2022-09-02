@@ -1,10 +1,14 @@
 package args;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @Author: focus.guo @Date: 2022/8/27 19:37 @Description:
@@ -12,15 +16,15 @@ import java.util.Map;
 public class Args {
 
     private static final Map<Class<?>, OptionParser> PARSERS =
-            Map.of(
+            ImmutableMap.of(
                     boolean.class, new BooleanOptionParser(),
-                    int.class, new SingleValueOptionParser<Integer>(Integer::parseInt, 0),
-                    String.class, new SingleValueOptionParser<String>(String::valueOf, ""));
+                    int.class, new SingleValueOptionParser<>(Integer::parseInt, 0),
+                    String.class, new SingleValueOptionParser<>(String::valueOf, ""));
 
     public static <T> T parse(Class<T> optionsClass, String... args) {
         Constructor<?> constructor = optionsClass.getDeclaredConstructors()[0];
         try {
-            List<String> arguments = Arrays.stream(args).toList();
+            List<String> arguments = Arrays.stream(args).collect(Collectors.toList());
 
             Object[] values =
                     Arrays.stream(constructor.getParameters())

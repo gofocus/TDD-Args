@@ -26,13 +26,13 @@ class SingleValueOptionParserGTest extends Specification {
 
         where:
         valueParser      | defaultValue | arguments           | optionValue || result
-        Integer::valueOf | 0            | ["-p", "8080"]      | "p"         || 8080
-        String::valueOf  | "0"          | ["-d", "/var/logs"] | "d"         || "/var/logs"
+        Integer.&valueOf | 0 | ["-p", "8080"] | "p" || 8080
+        String.&valueOf | "0" | ["-d", "/var/logs"] | "d" || "/var/logs"
     }
 
     def "不应该传入多余的参数（只能一个）"() {
         given:
-        def parser = new SingleValueOptionParser<>((it) -> null, null)
+        def parser = new SingleValueOptionParser<>({ it -> null }, null)
 
         when:
         parser.parse(arguments, option(optionValue))
@@ -49,7 +49,7 @@ class SingleValueOptionParserGTest extends Specification {
 
     def "必须要传参数"() {
         given:
-        def parser = new SingleValueOptionParser<>((it) -> null, null)
+        def parser = new SingleValueOptionParser<>({ it -> null }, null)
 
         when:
         parser.parse(arguments, option(optionValue))
@@ -67,7 +67,7 @@ class SingleValueOptionParserGTest extends Specification {
 
     def "参数里没有对应的 option 时，给默认值"() {
         given:
-        def parser = new SingleValueOptionParser<>((it) -> null, defaultValue)
+        def parser = new SingleValueOptionParser<>({ it -> null }, defaultValue)
 
         when:
         def value = parser.parse(arguments, option(optionValue))

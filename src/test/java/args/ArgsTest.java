@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.Annotation;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @Author: focus.guo @Date: 2022/8/27 19:39 @Description:
@@ -34,6 +35,31 @@ class ArgsTest {
         assertEquals("/usr/logs", options.directory);
     }
 
-    record MultiOptions(
-            @Option("l") boolean logging, @Option("p") int port, @Option("d") String directory) {}
+    static class MultiOptions {
+
+        private final boolean logging;
+        private final int port;
+        private final String directory;
+
+        public MultiOptions(
+                @Option("l") boolean logging,
+                @Option("p") int port,
+                @Option("d") String directory) {
+            this.logging = logging;
+            this.port = port;
+            this.directory = directory;
+        }
+
+        public boolean isLogging() {
+            return logging;
+        }
+
+        public int getPort() {
+            return port;
+        }
+
+        public String getDirectory() {
+            return directory;
+        }
+    }
 }

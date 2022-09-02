@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * @Description:
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
+@Target({ElementType.PARAMETER,ElementType.FIELD})
 public @interface Option {
 
     String value();
