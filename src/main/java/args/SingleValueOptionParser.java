@@ -27,7 +27,8 @@ public class SingleValueOptionParser<T> implements OptionParser<T> {
             throw new InsufficientArgumentsException(option.value());
         }
 
-        if (index + 2 < arguments.size() && !arguments.get(index + 2).startsWith("-")) {
+        boolean tooManyArguments = index + 2 < arguments.size() && !arguments.get(index + 2).startsWith("-");
+        if (tooManyArguments) {
             throw new TooManyArgumentsException(option.value());
         }
 
