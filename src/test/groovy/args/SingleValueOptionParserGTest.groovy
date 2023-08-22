@@ -26,8 +26,8 @@ class SingleValueOptionParserGTest extends Specification {
 
         where:
         valueParser      | defaultValue | arguments           | optionValue || result
-        Integer.&valueOf | 0 | ["-p", "8080"] | "p" || 8080
-        String.&valueOf | "0" | ["-d", "/var/logs"] | "d" || "/var/logs"
+        Integer.&valueOf | 0            | ["-p", "8080"]      | "p"         || 8080
+        String.&valueOf  | "0"          | ["-d", "/var/logs"] | "d"         || "/var/logs"
     }
 
     def "不应该传入多余的参数（只能一个）"() {

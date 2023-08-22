@@ -2,17 +2,12 @@ package args;
 
 import java.util.List;
 
+import static args.SingleValueOptionParser.*;
+
 public class BooleanOptionParser implements OptionParser<Boolean> {
 
     @Override
     public Boolean parse(List<String> arguments, Option option) {
-        int index = arguments.indexOf("-" + option.value());
-
-        int nextIndex = index + 1;
-        if (nextIndex < arguments.size() && !arguments.get(nextIndex).startsWith("-")) {
-            throw new TooManyArgumentsException(option.value());
-        }
-
-        return index != -1;
+        return values(arguments, option, 0).map(it -> true).orElse(false);
     }
 }
