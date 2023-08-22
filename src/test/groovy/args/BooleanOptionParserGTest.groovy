@@ -14,7 +14,7 @@ class BooleanOptionParserGTest extends Specification {
 
     def "happy path: 有 option 时返回 true"() {
         given:
-        def parser = new BooleanOptionParser()
+        def parser = OptionParsers.bool()
 
         when:
         def value = parser.parse(arguments, option("l"))
@@ -28,7 +28,7 @@ class BooleanOptionParserGTest extends Specification {
 
     def "不能有多余的参数"() {
         given:
-        def parser = new BooleanOptionParser()
+        def parser = OptionParsers.bool()
 
         when:
         parser.parse(arguments, option("l"))
@@ -43,7 +43,7 @@ class BooleanOptionParserGTest extends Specification {
 
     def "没有 option 时给默认值 false"() {
         given:
-        def parser = new BooleanOptionParser()
+        def parser = OptionParsers.bool()
 
         when:
         def value = parser.parse(arguments, option("l"))

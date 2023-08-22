@@ -1,8 +1,6 @@
 package args
 
-import args.InsufficientArgumentsException
-import args.SingleValueOptionParser
-import args.TooManyArgumentsException
+
 import spock.lang.Specification
 
 import static args.ArgsTest.option
@@ -16,7 +14,7 @@ class SingleValueOptionParserGTest extends Specification {
 
     def "happy path: 有 option 且参数数量正确时，返回对应的参数"() {
         given:
-        def parser = new SingleValueOptionParser<>(valueParser, defaultValue)
+        def parser = OptionParsers.unary(valueParser, defaultValue)
 
         when:
         def value = parser.parse(arguments, option(optionValue))
@@ -32,7 +30,7 @@ class SingleValueOptionParserGTest extends Specification {
 
     def "不应该传入多余的参数（只能一个）"() {
         given:
-        def parser = new SingleValueOptionParser<>({ it -> null }, null)
+        def parser = OptionParsers.unary({ it -> null }, null)
 
         when:
         parser.parse(arguments, option(optionValue))
@@ -49,7 +47,7 @@ class SingleValueOptionParserGTest extends Specification {
 
     def "必须要传参数"() {
         given:
-        def parser = new SingleValueOptionParser<>({ it -> null }, null)
+        def parser = OptionParsers.unary({ it -> null }, null)
 
         when:
         parser.parse(arguments, option(optionValue))
@@ -67,7 +65,7 @@ class SingleValueOptionParserGTest extends Specification {
 
     def "参数里没有对应的 option 时，给默认值"() {
         given:
-        def parser = new SingleValueOptionParser<>({ it -> null }, defaultValue)
+        def parser = OptionParsers.unary({ it -> null }, defaultValue)
 
         when:
         def value = parser.parse(arguments, option(optionValue))

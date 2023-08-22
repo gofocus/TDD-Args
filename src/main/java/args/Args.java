@@ -1,7 +1,6 @@
 package args;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
@@ -17,9 +16,9 @@ public class Args {
 
     private static final Map<Class<?>, OptionParser> PARSERS =
             ImmutableMap.of(
-                    boolean.class, new BooleanOptionParser(),
-                    int.class, new SingleValueOptionParser<>(Integer::parseInt, 0),
-                    String.class, new SingleValueOptionParser<>(String::valueOf, ""));
+                    boolean.class, OptionParsers.bool(),
+                    int.class, OptionParsers.unary(Integer::parseInt, 0),
+                    String.class, OptionParsers.unary(String::valueOf, ""));
 
     public static <T> T parse(Class<T> optionsClass, String... args) {
         Constructor<?> constructor = optionsClass.getDeclaredConstructors()[0];
