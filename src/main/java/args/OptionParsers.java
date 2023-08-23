@@ -3,6 +3,7 @@ package args;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.IntFunction;
 import java.util.stream.IntStream;
 
 public class OptionParsers {
@@ -14,8 +15,27 @@ public class OptionParsers {
     public static <T> OptionParser<T> unary(Function<String, T> valueParser, T defaultValue) {
         return (arguments, option) ->
                 values(arguments, option, 1)
-                        .map(it -> parse(it.get(0), valueParser))
+                        .map(it -> parseValue(it.get(0), valueParser))
                         .orElse(defaultValue);
+    }
+
+    public static <T> OptionParser<T[]> list(
+            IntFunction<T[]> generator, Function<String, T> valueParser) {
+        return (arguments, option) ->
+//                values(arguments, option)
+                (T[]) values(arguments, option)
+                        .map(
+                                it -> it.stream()
+                                        .map(value -> parseValue(value, valueParser))
+//                                        .toArray(generator))
+                                        .toArray(String[]::new))
+//                        .orElse(generator.apply(0));
+                        .orElse(new String[0]);
+    }
+
+    private static Optional<List<String>> values(List<String> arguments, Option option) {
+        int index = arguments.indexOf("-" + option.value());
+        return Optional.ofNullable(index == -1 ? null : values(arguments, index));
     }
 
     private static Optional<List<String>> values(
@@ -36,7 +56,7 @@ public class OptionParsers {
         return Optional.of(values);
     }
 
-    private static <T> T parse(String value, Function<String, T> valueParser) {
+    private static <T> T parseValue(String value, Function<String, T> valueParser) {
         return valueParser.apply(value);
     }
 
