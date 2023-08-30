@@ -18,7 +18,9 @@ public class Args {
             ImmutableMap.of(
                     boolean.class, OptionParsers.bool(),
                     int.class, OptionParsers.unary(Integer::parseInt, 0),
-                    String.class, OptionParsers.unary(String::valueOf, ""));
+                    String.class, OptionParsers.unary(String::valueOf, ""),
+                    String[].class, OptionParsers.list(String[]::new, String::valueOf)
+                    );
 
     public static <T> T parse(Class<T> optionsClass, String... args) {
         Constructor<?> constructor = optionsClass.getDeclaredConstructors()[0];
